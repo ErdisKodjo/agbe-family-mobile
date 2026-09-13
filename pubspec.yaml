@@ -1,0 +1,41 @@
+name: agbe_family_mobile
+description: "AGBE Family — Plateforme de Gestion Familiale (PGF) mobile, connectée à l'API Railway."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Réseau — API Railway (sessions cookies httpOnly persistées)
+  dio: ^5.0.0
+  cookie_jar: ^4.0.0
+  dio_cookie_manager: ^3.0.0
+
+  # État applicatif
+  provider: ^6.0.0
+
+  # Fichiers locaux (cookie-jar persistant) + preuve photo
+  path_provider: ^2.0.0
+  image_picker: ^1.0.0
+
+  # Type MIME pour le téléversement des preuves (multipart)
+  http_parser: ^4.0.0
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logo.png
+    - assets/logo-round.png

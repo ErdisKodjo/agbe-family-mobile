@@ -1,0 +1,53 @@
+name: APK
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  qualite:
+    name: Analyse statique + tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.4'
+          cache: true
+
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+
+  apk:
+    name: Construction de l'APK Android
+    needs: qualite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.4'
+          cache: true
+
+      - run: flutter pub get
+      - run: flutter build apk --release
+
+      - name: Archive de l'APK (téléchargeable dans le run)
+        uses: actions/upload-artifact@v4
+        with:
+          name: agbe-family-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Publication GitHub Release (tags v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/app/outputs/flutter-apk/app-release.apk
+          generate_release_notes: true
