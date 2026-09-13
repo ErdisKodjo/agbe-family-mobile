@@ -6,6 +6,10 @@ on:
     tags: ['v*']
   workflow_dispatch:
 
+# Publication des Releases (APK) via le GITHUB_TOKEN du dépôt
+permissions:
+  contents: write
+
 jobs:
   qualite:
     name: Analyse statique + tests
